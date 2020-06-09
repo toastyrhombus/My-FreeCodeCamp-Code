@@ -46,55 +46,95 @@
 */
 
 function checkCashRegister(price, cash, cid) {
-    if (typeof price != "number" || typeof cash != "number" || typeof cid != "object") {
+    if (
+        typeof price != "number" ||
+        typeof cash != "number" ||
+        typeof cid != "object"
+    ) {
         return undefined;
     }
 
-    arrTempCid = Array.from(cid);
+    let arrTempCid = Array.from(cid);
 
     //We define a dictionary with unit values for currency denominations
     const unitOfCurrency = {
-        "PENNY": 0.01,
-        "NICKEL": 0.05,
-        "DIME": 0.1,
-        "QUARTER": 0.25,
-        "ONE": 1,
-        "FIVE": 5,
-        "TEN": 10,
-        "TWENTY": 20,
-        "ONE HUNDRED": 100
-    }
+        PENNY: 0.01,
+        NICKEL: 0.05,
+        DIME: 0.1,
+        QUARTER: 0.25,
+        ONE: 1,
+        FIVE: 5,
+        TEN: 10,
+        TWENTY: 20,
+        "ONE HUNDRED": 100,
+    };
 
     let targetChange = cash - price;
     let arrActualChange = [];
     let cidValue = 0;
+    //We operate on the passed array from right to left as we are ASSUMING it will be passed with the largest denominations last
     arrTempCid.reduceRight((_, elem) => {
-        cidValue += elem[1]; 
-        if (targetChange % unitOfCurrency[elem[0]] == 0 && targetChange > 0) {
-            arrActualChange.push([elem[0], targetChange]);
-            targetChange -= targetChange;
-            cidValue -= targetChange;
-        }
-        else if (Math.floor(targetChange / unitOfCurrency[elem[0]]) > 0) {
-            let quotent = Math.min(Math.floor(targetChange / unitOfCurrency[elem[0]]),Math.floor(elem[1] / unitOfCurrency[elem[0]]));
-            if (quotent > 0) {
-                arrActualChange.push([elem[0], quotent * unitOfCurrency[elem[0]]]);
-                targetChange = Math.round((targetChange - quotent * unitOfCurrency[elem[0]])*100) / 100;
-                cidValue -= quotent * unitOfCurrency[elem[0]]
+        //We check that change is still owed, if not expedite out of loop
+        if (targetChange > 0) {
+            let strDenomination = elem[0];
+            let numAmountAvailable = elem[1];
+
+            //We accumulate the value of each currency passed to determine the status to be returned
+            cidValue += numAmountAvailable;
+
+            //We check for perfect change
+            let boolDivisibleByDenomination = false;
+            let boolPerfectChange = false;
+            targetChange % unitOfCurrency[strDenomination] == 0
+                ? (boolDivisibleByDenomination = true)
+                : (boolDivisibleByDenomination = false);
+            targetChange <= numAmountAvailable
+                ? (boolPerfectChange = true)
+                : (boolPerfectChange = false);
+
+            if (boolDivisibleByDenomination && boolPerfectChange) {
+                arrActualChange.push([strDenomination, targetChange]);
+                targetChange -= targetChange;
+                //We subtract the change we gave from the cidValue variable to track if we have enough change
+                cidValue -= targetChange;
+            //We then check if it is at all divisible by our unitofcurrency
+            } else if (Math.floor(targetChange / unitOfCurrency[strDenomination]) > 0) {
+                //We need to use min to ensure we actually have some relevant currency units to use
+                // and if we do, put it in the array
+                let quotent = Math.min(
+                    Math.floor(targetChange / unitOfCurrency[strDenomination]),
+                    Math.floor(numAmountAvailable / unitOfCurrency[strDenomination])
+                );
+                if (quotent > 0) {
+                    arrActualChange.push([
+                        strDenomination,
+                        quotent * unitOfCurrency[strDenomination],
+                    ]);
+                    //We need to subtract the amount we use for change from our existing change varaible
+                    targetChange =
+                        Math.round(
+                            (targetChange - quotent * unitOfCurrency[strDenomination]) *
+                                100
+                        ) / 100;
+                    //We also need to subtract the amount we use for change from the CID value variable
+                    cidValue -= quotent * unitOfCurrency[strDenomination];
+                }
             }
-        } 
+        }
     }, 0);
 
+    //We need to check the targetChange, Cidvalue to determine the status. If we have anything left in targetChange
+    // then that means we failed to find enough change. If we have money left in the drawer, we are still open and 
+    // fulfilled the change request. If we have nothing left in the drawer, then we are now closed.
     if (targetChange > 0) {
-        return ["INSUFFICIENT_FUNDS", []];
+        return { status: "INSUFFICIENT_FUNDS", change: [] };
+    } else if (cidValue > 0) {
+        return { status: "OPEN", change: arrActualChange };
+    } else if (cidValue == 0) {
+        return { status: "CLOSED", change: cid };
     }
-    else if (cidValue > 0) {
-        return ["OPEN", arrActualChange];
-    }
-    else if (cidValue == 0) {
-        return ["CLOSED", cid];
-    }
-  }
-  
-  console.log(checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]));
-  
+}
+
+console.log(
+    checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]])
+);
