@@ -1,3 +1,7 @@
 {
-    "eslint.enable": true
+    "eslint.enable": true,
+    "css.remoteStyleSheets": [
+        "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css",
+        "https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+      ]
 }

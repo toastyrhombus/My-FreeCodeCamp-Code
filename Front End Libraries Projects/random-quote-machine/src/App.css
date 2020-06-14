@@ -1,0 +1,33 @@
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+
+#react-logo {
+    animation: spin 5s linear 0s infinite;
+    height: 50vh;
+}
+
+@-moz-keyframes spin {
+    from { -moz-transform: rotate(0deg); }
+    to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+
+.transitionable-bg-color {
+    transition: 500ms linear;
+    transition-property: background-color;
+}
+
+.transitionable-color {
+    transition: 500ms linear;
+    transition-property: color;
+}
+
+.button-lite-hover:hover {
+    background-color: inherit !important;
+}
