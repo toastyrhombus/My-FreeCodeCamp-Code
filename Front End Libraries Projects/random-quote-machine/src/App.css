@@ -1,8 +1,19 @@
 @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Donegal+One&family=Roboto+Slab&display=swap');
 
 #react-logo {
     animation: spin 5s linear 0s infinite;
     height: 50vh;
+}
+
+#text, #new-quote {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 500;
+}
+
+#author {
+    font-family: 'Donegal One', serif;
+    font-weight: 500;
 }
 
 @-moz-keyframes spin {
@@ -30,4 +41,9 @@
 
 .button-lite-hover:hover {
     background-color: inherit !important;
+}
+
+#social-icons img:hover {
+    transition: 1s;
+    transform: translateY(-5px) rotate(-15deg);
 }

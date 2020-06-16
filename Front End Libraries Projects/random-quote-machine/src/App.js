@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
-import logo from "./logo.svg";
+import logo from "./img/logo.svg";
+import githubMark from "./img/GitHub-Mark-Light-64px.png";
 
 //Declare global variables
 const quoteUrl =
@@ -42,17 +43,45 @@ class App extends React.Component {
   render() {
     return (
       <div
-        id="app-wrapper"
-        className="row min-vh-100 align-content-center justify-content-center transitionable-bg-color"
+        id="app-container"
+        className="container-fluid d-flex flex-column min-vh-100 transitionable-bg-color"
         style={{ backgroundColor: this.state.backgroundColor }}
       >
         {this.state.loading ? (
           <Loading />
         ) : (
-          <QuoteMachine
-            data={this.data}
-            updateBackgroundColor={this.updateBackgroundColor.bind(this)}
-          />
+          <div
+            id="app-wrapper"
+            className="row justify-content-center align-content-center mt-auto mb-auto"
+          >
+            <div
+              id="App"
+              className="col-lg-4 col-md-6 col-sm-8 col-10 mt-auto mb-auto"
+            >
+              <QuoteMachine
+                data={this.data}
+                updateBackgroundColor={this.updateBackgroundColor.bind(this)}
+              />
+            </div>
+          </div>
+        )}
+        {this.state.loading ? (
+          <div></div>
+        ) : (
+          <div
+            id="social-icons-wrapper"
+            className="row justify-content-center mt-auto mb-3"
+          >
+            <div id="social-icons" className="">
+              <a href="https://github.com/toastyrhombus">
+                <img
+                  id="github-social"
+                  alt="Mathew Haynes Github Profile Link"
+                  src={githubMark}
+                ></img>
+              </a>
+            </div>
+          </div>
         )}
       </div>
     );
@@ -112,7 +141,7 @@ class QuoteMachine extends React.Component {
       `${quote} - ${author}`.slice(null, twitterMaxChars)
     );
     return (
-      <div id="quote-box" className="card col-lg-4 col-md-6 col-sm-8 col-10 mt-auto mb-auto">
+      <div id="quote-box" className="card">
         <div id="card-body" className="card-body">
           <div id="quote-body" className="card-blockquote">
             <p
@@ -132,7 +161,11 @@ class QuoteMachine extends React.Component {
           </div>
           <div id="buttons">
             <div id="share-icons">
-              <a className="btn btn-primary btn-sm float-left" id="tweet-quote" href={twitterUrl.href}>
+              <a
+                className="btn btn-primary btn-sm float-left"
+                id="tweet-quote"
+                href={twitterUrl.href}
+              >
                 <i className="fa fa-twitter fa-2x"></i>
               </a>
             </div>
