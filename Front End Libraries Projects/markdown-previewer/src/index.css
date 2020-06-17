@@ -1,4 +1,4 @@
-header {
-    background-color: red;
+html, body {
+    min-height: 100vh;
 }
 
