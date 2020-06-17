@@ -1,0 +1,18 @@
+.text-area {
+    background-color: blue;
+    height: 90vh;
+}
+
+.preview-area {
+    background-color: red;
+    height: 90vh;
+}
+
+.no-resize {
+    resize: none;
+}
+
+header {
+    background-color: green;
+    height: 9%;
+}
