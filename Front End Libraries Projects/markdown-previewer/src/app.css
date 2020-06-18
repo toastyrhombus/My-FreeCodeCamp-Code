@@ -1,18 +1,33 @@
-.text-area {
-    background-color: blue;
+header h1 {
+    font-family: 'Paytone One', sans-serif;
+
+    font-size: 4rem;
+}
+
+.img-blend {
+    box-shadow: 1px 1px 8px 10px #1D1D1B;
+    
+}
+
+.text-area, .preview-area {
     height: 90vh;
 }
 
-.preview-area {
-    background-color: red;
-    height: 90vh;
+.widget {
+    box-shadow: 0 0 6px 2px #555;
+    background-color: #FFF;
 }
+
 
 .no-resize {
     resize: none;
 }
 
-header {
-    background-color: green;
-    height: 9%;
+.min-h-100 {
+    min-height: 100%;
+}
+
+.animation-rotate:hover {
+    transition: 1s;
+    transform: rotate(-15deg);
 }
