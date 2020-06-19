@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
+
+.drum-machine-box {
+  background-color: #E4E4FA;
+  border-radius: 1rem;
+  border: 3px solid #9A139A
+}
+
+.display {
+  color: #002349;
+  font-family: 'Metal Mania', cursive;
+  font-size: 1.5rem;
+  border: 1px solid #002349;
+  border-radius: 0.5rem;
+}
