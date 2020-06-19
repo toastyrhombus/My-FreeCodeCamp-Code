@@ -4,6 +4,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 This is a basic markdown previewer running the JS library [marked](https://github.com/markedjs/marked) on top of [ReactJS](https://reactjs.org). This page also uses [Bootstrap](https://getbootstrap.com) for layout and basic styling. This webapp was built as a reply to the 'Build a Markdown Previewer' challenge on [FreeCodeCamp](https://www.freecodecamp.org/learn/front-end-libraries/front-end-libraries-projects/build-a-markdown-previewer).
 
+### Link to Preview
+
+You can find a preview of this code running on codepen: [Codepen Preview](https://codepen.io/toastyrhombus/pen/mdVRRwZ)
+
 ### GFM - Github Flavoured Markdown
 
 Marked is a compatible Github Flavour Markdown module. Which means that any markdown previewed here and subsequently moved to github should be reflected accurately.
