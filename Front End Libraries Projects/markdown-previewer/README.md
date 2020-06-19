@@ -1,68 +1,138 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Welcome!
 
-In the project directory, you can run:
+This is a basic markdown previewer running the JS library [marked](https://github.com/markedjs/marked) on top of [ReactJS](https://reactjs.org). This page also uses [Bootstrap](https://getbootstrap.com) for layout and basic styling. This webapp was built as a reply to the 'Build a Markdown Previewer' challenge on [FreeCodeCamp](https://www.freecodecamp.org/learn/front-end-libraries/front-end-libraries-projects/build-a-markdown-previewer).
 
-### `npm start`
+### GFM - Github Flavoured Markdown
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Marked is a compatible Github Flavour Markdown module. Which means that any markdown previewed here and subsequently moved to github should be reflected accurately.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+##### Index
 
-### `npm test`
+[Headings](#headings)  
+[Emphasis](#emphasis)  
+[Lists](#lists)  
+[Line Breaks](#linebreaks)  
+[Links](#links)  
+[Code](#code)  
+[Images](#images)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<a name="headings"></a>
 
-### `npm run build`
+## Headings
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Headings are pretty cool big words you can throw in your markdown! For those people who love to structure things using headings, or just those that like to type in large bold characters!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+#      H1
+##     H2
+###    H3
+####   H4
+#####  H5
+###### H6
+```
 
-### `npm run eject`
+# H1
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## H2
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### H3
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### H4
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+##### H5
 
-## Learn More
+###### H6 `Is the smallest`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<a name="emphasis"></a>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Emphasis
 
-### Code Splitting
+---
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```
+_italicize_
+*italicize*
+__boldinize__
+**boldinize**
+___bothinize___
+***bothinize***
+```
 
-### Analyzing the Bundle Size
+You can emphasize text by wrapping your words in either _asterisks_ (`**`!!Stars!!`**`) or _underscores_. Using two underscores or asterisks will make the **text** **bold**! **_OR_** you can use **_three_** together to make the text both **bold** and _italic_ at the same time!
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+<a name="lists"></a>
 
-### Making a Progressive Web App
+## Lists
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+---
 
-### Advanced Configuration
+1. A numbered list can be created by created by
+1. using any number followed by a fullstop and a space
+1. It doesn't matter what number you use, so long as it's a number.  
+   `1. This is the start of a numbered list`  
+   Bulleted lists can be created by using a - followed by a space
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+- This is a bulleted list
+- More bullet lists!
+- You can also nest lists with a space before and after the dash  
+  You can also nest blocks of text on the same indentation as the sub list by just typing it on the next line.
 
-### Deployment
+`- Bulleted list`  
+`- Sub list`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+<a name="linebreaks"></a>
 
-### `npm run build` fails to minify
+## Line Breaks
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+---
+
+You can enter new paragraphs by placing a blank line between two blocks of text.
+
+Like so. This is another paragraph, **hooray** for paragraphs!
+
+You can also put a line break in by double spacing at the end of a line.  
+This will place a line break in but will not move the new line down as far as a new paragraph. This giving you a way to organize your text as well as you organize your star wars figures in chronological order from good to bad.
+
+**ALSO** you should know that you can create a `<hr>` tag by putting three dashes `---` on a new line. Try it out!
+
+## Links
+
+---
+
+Place links in your markdown using the following syntax:  
+`[Your super awesome link](http://somewhereawesome.com)`
+
+Just like so:
+[Somewhere super awesome!](https://www.youtube.com/watch?v=oHg5SJYRHA0)
+
+## Code
+
+---
+
+To write code without having it being interpreted as markdown, you can surround inline text with a single _back-tick_: `` `This is _some_ code` ``.
+
+You can also create code blocks by using multiple back-ticks to wrap multiple lines of text where you can write anything your tender heart desires:-
+
+```
+#### Awesome
+### Sauce
+` Code here too `
+*Blarg*
+```
+
+<a name="images"></a>
+
+## Images
+
+---
+
+Images can be embedded by using the link syntax **but** you need to place an exclamation mark in front of the text portion of the link.
+
+![Pirate Cat](https://i.chzbgr.com/full/2202934016/h0B04BB0F/yar-i-be-a-pirate)
+
+Like so:  
+`![Some fantastic picture](http://somethingfancy.com/superawesomepiccy.png)`

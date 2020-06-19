@@ -33,8 +33,8 @@ class App extends React.Component {
 
 function Header() {
   return (
-    <div id="header-wrapper" className="col-lg-12">
-      <header className="w-100 h-100 d-flex justify-content-center align-items-center pt-3 pl-2">
+    <div id="header-wrapper" className="w-100">
+      <header className="w-100 h-100 d-flex justify-content-center align-items-center pt-3 px-4 flex-md-nowrap flex-wrap">
         <a
           href="https://www.freecodecamp.org/fcc6d127099-e96b-41d1-978f-359316c20bf3"
           target="_blank"
@@ -47,7 +47,7 @@ function Header() {
             className="img-blend"
           ></img>
         </a>
-        <h1 className="m-auto">Markdown Previewer</h1>
+        <h1 className="m-auto text-center">Markdown Previewer</h1>
         <a
           href="https://github.com/toastyrhombus"
           target="_blank"
