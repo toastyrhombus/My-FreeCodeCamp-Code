@@ -49,7 +49,7 @@ function Header() {
         </a>
         <h1 className="m-auto text-center">Markdown Previewer</h1>
         <a
-          href="https://github.com/toastyrhombus"
+          href="https://github.com/toastyrhombus/My-FreeCodeCamp-Solutions/tree/master/Front End Libraries Projects/markdown-previewer"
           target="_blank"
           rel="noopener noreferrer"
         >
