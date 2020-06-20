@@ -9,7 +9,7 @@ class SoundButton extends React.Component {
     this.state = {
       pressed: false,
     };
-    //Audio for the button - note we preload so use doesn't need to fetch on button click
+    //Audio for the button - note we preload so user doesn't need to fetch on button click
     this.audioUrl = props.sound.url;
     new Audio(this.audioUrl).preload = true;
 
@@ -24,13 +24,16 @@ class SoundButton extends React.Component {
   handleClick(e) {
     new Audio(this.audioUrl).play();
     this.updateParent(e);
+    //We set the button state to active and then reset it after 100ms to indicate it's been pressed
+    this.setState({pressed: true});
+    setTimeout(() => {this.setState({pressed: false})}, 100)
   }
 
   render() {
     return (
       <button
         id={`snd-${this.sound}`}
-        className="btn btn-primary col m-2"
+        className={`btn btn-dark col m-2 ${this.state.pressed ? "active" : ""}`}
         onClick={this.handleClick}
       >
         {this.keyDef}

@@ -5,6 +5,8 @@ import SoundButton from "./SoundButton";
 import Display from "./Display";
 
 //Sound URLs - Thanks FCC
+//We create an object containing the sound URL's, the name of the sound, the key we want to assign
+//and a callback to the button component that we will eventually assign this object to.
 const sounds = {
   heaterOne: {
     url: "https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3",
@@ -115,7 +117,18 @@ const sounds = {
     handler: undefined,
   },
 };
+//We iterate through the sound object, checking if we have keys assigned and then
+//assigning them to our keys object to make working with them later much easier
+var keys = {};
+for (const key in sounds) {
+  if (sounds.hasOwnProperty(key)) {
+    if (sounds[key].keyDef !== undefined) {
+      keys[sounds[key].keyDef] = key;
+    }
+  }
+}
 
+//Main app class
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -123,18 +136,45 @@ class App extends React.Component {
       currentSound: "",
     };
     this.updateCurrentSound = this.updateCurrentSound.bind(this);
+    this.attachKeyboard();
   }
 
+  //Updates this component's state with the current sound string. This function is passed to our children buttons
+  //to allow the children to update this components state
   updateCurrentSound(e) {
     this.setState({ currentSound: e.target.id });
   }
 
+  //Needs to be called in the constructor to ensure we attach to the keyboard
+  attachKeyboard() {
+    document.addEventListener('keydown', this.handleKey);
+  }
+
+  //Key handler function to be used as a callback for our keydown event listener.
+  handleKey(e) {
+    //Added the below block due to double events firing, reference: https://developer.mozilla.org/en-US/docs/Web/API/Document/keydown_event
+    //Didn't actually help but I'm leaving it in anyway 
+    if (e.isComposing || e.keyCode === 229) {
+      return;
+    }
+    //We get the value of the sound name via our keys object by looking up which key was pressed - note the conversion to uppercase
+    let sound = keys[String(e.key).toUpperCase()];
+    //We need to check if nothing was found and return out of this function to avoid an error
+    if (sound === undefined) {
+      return;
+    }
+    //We then call the handler in our object which should be assigned as the onClick handler for the button we are interested in
+    if (sounds[sound].hasOwnProperty("handler")) {
+      sounds[sound].handler({target: {id: sound}});
+    }
+  }
+
   render() {
     return (
-      <div
-        id="app-wrapper"
-        className="h-100 row align-content-center justify-content-center"
-      >
+      // <div
+      //   id="app-wrapper"
+      //   className="h-100 row align-content-center justify-content-center"
+      // >
         <div
           id="drum-machine"
           className="col-12 col-sm-12 col-md-8 col-lg-4 d-flex drum-machine-box"
@@ -190,7 +230,7 @@ class App extends React.Component {
             <Display currentSound={this.state.currentSound} />
           </div>
         </div>
-      </div>
+      // </div>
     );
   }
 }
