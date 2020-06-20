@@ -171,15 +171,11 @@ class App extends React.Component {
 
   render() {
     return (
-      // <div
-      //   id="app-wrapper"
-      //   className="h-100 row align-content-center justify-content-center"
-      // >
         <div
           id="drum-machine"
-          className="col-12 col-sm-12 col-md-8 col-lg-4 d-flex drum-machine-box"
+          className="col-12 col-sm-12 col-md-8 col-lg-4 d-flex drum-machine-box row"
         >
-          <div id="sound-btns" className="d-flex flex-column col-8 py-3">
+          <div id="sound-btns" className="d-flex flex-column col-12 col-md-8 py-3">
             <div className="row flex-row flex-nowrap">
               <SoundButton
                 sound={sounds.heaterOne}
@@ -225,12 +221,11 @@ class App extends React.Component {
           </div>
           <div
             id="status"
-            className="d-flex justify-content-center align-content-center col-4"
+            className="d-flex justify-content-center align-content-center col-12 col-md-4"
           >
             <Display currentSound={this.state.currentSound} />
           </div>
         </div>
-      // </div>
     );
   }
 }

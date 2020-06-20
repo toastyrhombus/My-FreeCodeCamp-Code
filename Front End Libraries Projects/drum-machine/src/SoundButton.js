@@ -25,15 +25,19 @@ class SoundButton extends React.Component {
     new Audio(this.audioUrl).play();
     this.updateParent(e);
     //We set the button state to active and then reset it after 100ms to indicate it's been pressed
-    this.setState({pressed: true});
-    setTimeout(() => {this.setState({pressed: false})}, 100)
+    this.setState({ pressed: true });
+    setTimeout(() => {
+      this.setState({ pressed: false });
+    }, 100);
   }
 
   render() {
     return (
       <button
         id={`snd-${this.sound}`}
-        className={`btn btn-dark col m-2 drum-pad${this.state.pressed ? "active" : ""}`}
+        className={`btn btn-dark col m-1 drum-pad ${
+          this.state.pressed ? "active" : ""
+        }`}
         onClick={this.handleClick}
       >
         {this.keyDef}
