@@ -3,18 +3,26 @@ import React from "react";
 class SoundButton extends React.Component {
   constructor(props) {
     super(props);
-    this.sound = props.sound;
-    this.keyDef = props.keyDef;
+    this.sound = props.sound.soundName;
+    this.keyDef = props.sound.keyDef;
     this.updateParent = props.updateParent;
     this.state = {
       pressed: false,
     };
-    this.audio = new Audio(props.audio);
+    //Audio for the button - note we preload so use doesn't need to fetch on button click
+    this.audioUrl = props.sound.url;
+    new Audio(this.audioUrl).preload = true;
+
     this.handleClick = this.handleClick.bind(this);
+    //We bind this objects handleClick event to the sound object passed in via props
+    //This is so the parent can call the play sound function - only for key presses
+    props.sound.handler = this.handleClick;
   }
 
+  //We generate a new Audio each handleClick call so we can play multiple times concurrently if the user
+  //hits the button fast enough
   handleClick(e) {
-    this.audio.play();
+    new Audio(this.audioUrl).play();
     this.updateParent(e);
   }
 
