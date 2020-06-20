@@ -2,7 +2,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Drum Machine App
 
-Built as a solution to a [FreeCodeCamp](https://www.freecodecamp.org) challange, the [Build a Drum Machine] challenge. Best viewed with a webkit browser.
+Built as a solution to a [FreeCodeCamp](https://www.freecodecamp.org) challange, the [Build a Drum Machine](https://www.freecodecamp.org/learn/front-end-libraries/front-end-libraries-projects/build-a-drum-machine) challenge. Best viewed with a webkit browser.
 
 ## Frameworks
 

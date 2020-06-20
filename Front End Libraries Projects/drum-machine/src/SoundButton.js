@@ -33,7 +33,7 @@ class SoundButton extends React.Component {
     return (
       <button
         id={`snd-${this.sound}`}
-        className={`btn btn-dark col m-2 ${this.state.pressed ? "active" : ""}`}
+        className={`btn btn-dark col m-2 drum-pad${this.state.pressed ? "active" : ""}`}
         onClick={this.handleClick}
       >
         {this.keyDef}
