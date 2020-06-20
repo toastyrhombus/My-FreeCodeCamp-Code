@@ -15,4 +15,4 @@ This app has been built using [Reactjs](https://reactjs.org) and [Bootstrap](htt
 
 ## Codepen Sample
 
-A running example of the app can be found here: [Codepen Link](TODO)
+A running example of the app can be found here: [Codepen Link](https://codepen.io/toastyrhombus/pen/OJMWqGM)
