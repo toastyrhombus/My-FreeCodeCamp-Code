@@ -84,6 +84,8 @@ Layout should be as follows:-
 
 ```
 -------------------------------
+|           Display           |
+-------------------------------
 |   C   |   /   |   *   |  -  |
 -------------------------------
 |   7   |   8   |   9   |     |
@@ -99,3 +101,10 @@ Layout should be as follows:-
 Row
 4 items - col 3 each
 4 items - col 3 each
+
+
+## TODO List
+
+- Equals keeps taking the previous value to use in subsequent operations
+- Need to set a maximum # of decimal places
+- After an operation is complete, it should clear the input/current number again if we press another number button

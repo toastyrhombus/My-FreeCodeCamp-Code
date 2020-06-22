@@ -1,0 +1,12 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css");
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+}
+
+.wrapper {
+    overflow-x: hidden;
+    height: 100%;
+    background-color: #111;
+}

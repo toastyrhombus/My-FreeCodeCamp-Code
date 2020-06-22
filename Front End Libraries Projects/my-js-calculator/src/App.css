@@ -1,0 +1,64 @@
+/* multi-row entry before calc-button to be more selective*/
+.multi-row {
+    height: 50%;
+}
+
+.calc-button {
+    margin: 0px !important;
+    height: 100%;
+    font-size: 32px;
+    background-clip: padding-box;
+    border: 1px solid transparent;
+}
+
+.double-base-row {
+    height: 33.33333333333333%;
+}
+
+.single-base-row {
+    height: 16.66666666666667%;
+}
+
+.display-text {
+    font-size: 64px;
+    color: #CCC;
+}
+
+.number-button {
+    background-color: #4A4A4A;
+    color: #FFF;
+}
+
+.operator-button {
+    background-color: #FFA91F;
+    color: #FFF;
+}
+
+.utility-button {
+    background-color: #D4D4D4;
+    color: #000;
+}
+
+.utility-button:hover {
+    color: #FFF;
+}
+
+.row {
+    margin: 0;
+}
+
+#display {
+    background-color: transparent;
+}
+
+@media screen and (max-height: 560px) {
+    .display-text {
+        font-size: 48px;
+    }
+}
+
+@media screen and (max-height: 389px) {
+    .display-text {
+        font-size: 32px;
+    }
+}
