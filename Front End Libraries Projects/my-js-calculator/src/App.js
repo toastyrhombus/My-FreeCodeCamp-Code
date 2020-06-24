@@ -1,10 +1,6 @@
 import React from "react";
-import "./App.css";
-import Display from "./Display";
-import { ReduxNumberButton, ReduxUtilityButton, ReduxOperatorButton, ReduxEqualsButton } from "./Button";
-import { ADD, SUBTRACT, MULTIPLY, DIVIDE } from './Store';
 
-class App extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -132,4 +128,53 @@ class App extends React.Component {
   }
 }
 
-export default App;
+import { buttonPress } from './redux'
+const mapButtonDispatch = (dispatch) => {
+    return {
+        buttonPress: (buttonType, buttonName) => dispatch(buttonPress(buttonType, buttonName)),
+    };
+};
+
+class button extends React.Component {
+  constructor(props) {
+    super(props);
+    this.classes = props.classes;
+    this.name = props.name;
+    this.content = props.jsxElem | props.name
+    this.type = props.type;
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+      
+  }
+
+  render() {
+    return (
+      <button className={this.classes} onClick={this.handleClick}>
+        {this.content}
+      </button>
+    );
+  }
+}
+
+const Button = connect(null, mapButtonDispatch) (button);
+
+const select = state => {
+    return { output: state.output };
+}
+
+class Display extends React.Component {
+    constructor(props){
+        super(props);
+    }
+
+    render() {
+        return (
+        <div id="display" className="col-12 card justify-content-center"><p className="text-right display-text">{this.props.output}</p></div>
+        )
+    }
+}
+
+const ReduxDisplay = connect(select)(Display);

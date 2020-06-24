@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from "redux";
+import { createAction, createReducer, configureStore } from "@reduxjs/toolkit";
 
 //Redux reducer
 const initialState = {
@@ -6,9 +6,52 @@ const initialState = {
   currentNum: "0",
   prevNum: null,
   operator: null,
-  currentTimeout: null
+  currentTimeout: null,
 };
 
+//Actions
+export const buttonPress = createAction(
+  "buttons/buttonPress",
+  (buttonName, buttonType) => {
+    return {
+      payload: {
+        buttonName,
+        buttonType,
+      },
+    };
+  }
+);
+
+const buttonReducer = createReducer(null, {
+  [buttonPress]: (state, action) => {
+    console.log(state);
+    console.log(action);
+  },
+});
+
+const updateDisplay = createAction("display/update", (text) => {
+  return {
+    text,
+  };
+});
+
+const toggleError = createAction("display/error");
+
+const displayReducer = createReducer(
+  { text: "0", error: false },
+  {
+    [updateDisplay]: (state, action) => (state.text += action.payload.text),
+    [toggleError]: (state) => !state.error,
+  }
+);
+
+const reducer = {
+  display: displayReducer,
+};
+
+export const store = configureStore(reducer);
+
+/*
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_OUTPUT_DELAYED:
@@ -182,4 +225,4 @@ const store = createStore(
 );
 
 //Exports
-export { store };
+export { store }; */
