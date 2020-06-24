@@ -1,55 +1,62 @@
-import { createAction, createReducer, configureStore } from "@reduxjs/toolkit";
+import { configureStore, createSlice, combineReducers } from "@reduxjs/toolkit";
 
-//Redux reducer
-const initialState = {
-  output: "0",
-  currentNum: "0",
-  prevNum: null,
-  operator: null,
-  currentTimeout: null,
-};
+// ### Button redux ###
 
-//Actions
-export const buttonPress = createAction(
-  "buttons/buttonPress",
-  (buttonName, buttonType) => {
-    return {
-      payload: {
-        buttonName,
-        buttonType,
-      },
-    };
+//Redux createSlice
+const buttonSlice = createSlice({
+  name: 'button',
+  initialState: null,
+  reducers: {
+    buttonPress: (state) => {
+      return state
+    }
   }
-);
+});
 
-const buttonReducer = createReducer(null, {
-  [buttonPress]: (state, action) => {
-    console.log(state);
-    console.log(action);
+const displaySlice = createSlice({
+  name: 'display',
+  initialState: {text: '0', error: false},
+  reducers: {
+    updateDisplay: (state, payload) => {
+      state.text = payload.text;
+    },
+    toggleError: (state, payload) => {
+      state.error = !state.error
+    }
+  }
+});
+
+// Note we are treating the operands as strings for ease of use
+const calcSlice = createSlice({
+  name: 'calc',
+  initialState: {operandA: '', operandB: '', operator: '' },
+  reducers: {
+    operatorPress: (state, payload) => {
+      state.operator = payload.operator;
+    },
+    numberPress: (state, payload) => {
+      state.operandA = state.operandA + payload.buttonName;
+    },
+    equalsPress: (state, payload) => {
+      state.operandB = eval(`${state.operandB} ${state.operator} ${state.operandB}`);
+    },
   },
-});
+})
 
-const updateDisplay = createAction("display/update", (text) => {
-  return {
-    text,
-  };
-});
+// Export action creator names
+export const { buttonPress } = buttonSlice.actions;
+export const { updateDisplay, toggleError } = displaySlice.actions;
+export const { operatorPress, numberPress, equalsPress } = calcSlice.actions;
 
-const toggleError = createAction("display/error");
-
-const displayReducer = createReducer(
-  { text: "0", error: false },
-  {
-    [updateDisplay]: (state, action) => (state.text += action.payload.text),
-    [toggleError]: (state) => !state.error,
-  }
-);
-
+// Combine slices into rootReducer
 const reducer = {
-  display: displayReducer,
-};
+  display: displaySlice.reducer,
+  calc: calcSlice.reducer,
+  button: buttonSlice.reducer
+}
 
-export const store = configureStore(reducer);
+export const store = configureStore({reducer});
+
 
 /*
 const rootReducer = (state = initialState, action) => {

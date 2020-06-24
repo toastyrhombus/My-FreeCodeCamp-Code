@@ -1,9 +1,9 @@
 import React from "react";
+import { connect } from 'react-redux';
+import { buttonPress } from './redux';
+import './App.css'
 
 export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (
@@ -12,25 +12,28 @@ export default class App extends React.Component {
           <Display />
         </div>
         <div id="row-2" className="row single-base-row">
-          <ReduxUtilityButton
+          <Button
             classes={"btn btn-block utility-button col-3 calc-button"}
-            content="CA"
-            name="clear"
+            name="CA"
+            type="utility"
           />
-          <ReduxOperatorButton
+          <Button
             classes={"btn btn-block operator-button col-3 calc-button"}
-            content={{ faString: "fas fa-divide" }}
-            name={DIVIDE}
+            jsxElem={<i className="fas fa-divide"></i>}
+            name='/'
+            type="operator"
           />
-          <ReduxOperatorButton
+          <Button
             classes={"btn btn-block operator-button col-3 calc-button"}
-            content={{ faString: "fas fa-times" }}
-            name={MULTIPLY}
+            jsxElem={<i className="fas fa-times"></i>}
+            name='*'
+            type="operator"
           />
-          <ReduxOperatorButton
+          <Button
             classes={"btn btn-block operator-button col-3 calc-button"}
-            content={{ faString: "fas fa-minus" }}
-            name={SUBTRACT}
+            jsxElem={<i className="fas fa-minus"></i>}
+            name='-'
+            type="operator"
           />
         </div>
         <div id="row-3" className="row double-base-row">
@@ -38,42 +41,43 @@ export default class App extends React.Component {
             id="row-3-1"
             className="col-9 d-flex flex-row flex-wrap p-0 multi-row"
           >
-            <ReduxNumberButton
+            <Button
               classes={"btn btn-block number-button col-4 calc-button"}
-              content="7"
               name="7"
+              type="number"
             />
-            <ReduxNumberButton
+            <Button
               classes={"btn btn-block number-button col-4 calc-button"}
-              content="8"
               name="8"
+              type="number"
             />
-            <ReduxNumberButton
+            <Button
               classes={"btn btn-block number-button col-4 calc-button"}
-              content="9"
               name="9"
+              type="number"
             />
-            <ReduxNumberButton
+            <Button
               classes={"btn btn-block number-button col-4 calc-button"}
-              content="4"
               name="4"
+              type="number"
             />
-            <ReduxNumberButton
+            <Button
               classes={"btn btn-block number-button col-4 calc-button"}
-              content="5"
               name="5"
+              type="number"
             />
-            <ReduxNumberButton
+            <Button
               classes={"btn btn-block number-button col-4 calc-button"}
-              content="6"
               name="6"
+              type="number"
             />
           </div>
           <div id="row-3-2" className="col-3 p-0">
-            <ReduxOperatorButton
+            <Button
               classes={"btn btn-block operator-button col-12 h-100 calc-button"}
-              content={{ faString: "fas fa-plus" }}
-              name={ADD}
+              jsxElem={<i className="fas fa-plus"></i>}
+              name='+'
+              type="operator"
             />
           </div>
         </div>
@@ -83,43 +87,44 @@ export default class App extends React.Component {
               id="row-4-2"
               className="col-12 d-flex flex-row flex-wrap p-0 h-50"
             >
-              <ReduxNumberButton
+              <Button
                 classes={"btn btn-block number-button col-4 calc-button"}
-                content="1"
                 name="1"
+                type="number"
               />
-              <ReduxNumberButton
+              <Button
                 classes={"btn btn-block number-button col-4 calc-button"}
-                content="2"
                 name="2"
+                type="number"
               />
-              <ReduxNumberButton
+              <Button
                 classes={"btn btn-block number-button col-4 calc-button"}
-                content="3"
                 name="3"
+                type="number"
               />
             </div>
             <div
               id="row-4-3"
               className="col-12 d-flex flex-row flex-wrap p-0 h-50"
             >
-              <ReduxNumberButton
+              <Button
                 classes={"btn btn-block number-button col-8 calc-button"}
-                content="0"
                 name="0"
+                type="number"
               />
-              <ReduxNumberButton
+              <Button
                 classes={"btn btn-block number-button col-4 calc-button"}
-                content="."
-                name="decimalPoint"
+                name="."
+                type="number"
               />
             </div>
           </div>
           <div id="row-4-4" className="col-3 p-0">
-            <ReduxEqualsButton
+            <Button
               classes={"btn btn-block operator-button h-100 col-12 calc-button"}
-              content={{ faString: "fas fa-equals" }}
-              name="equals"
+              jsxElem={<i className="fas fa-equals"></i>}
+              name="="
+              type="operator"
             />
           </div>
         </div>
@@ -128,7 +133,6 @@ export default class App extends React.Component {
   }
 }
 
-import { buttonPress } from './redux'
 const mapButtonDispatch = (dispatch) => {
     return {
         buttonPress: (buttonType, buttonName) => dispatch(buttonPress(buttonType, buttonName)),
@@ -140,14 +144,14 @@ class button extends React.Component {
     super(props);
     this.classes = props.classes;
     this.name = props.name;
-    this.content = props.jsxElem | props.name
+    this.content = props.jsxElem || props.name
     this.type = props.type;
 
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {
-      
+      this.props.buttonPress({type: this.type, name: this.name});
   }
 
   render() {
@@ -162,19 +166,16 @@ class button extends React.Component {
 const Button = connect(null, mapButtonDispatch) (button);
 
 const select = state => {
-    return { output: state.output };
+    return { text: state.text };
 }
 
-class Display extends React.Component {
-    constructor(props){
-        super(props);
-    }
+class display extends React.Component {
 
     render() {
         return (
-        <div id="display" className="col-12 card justify-content-center"><p className="text-right display-text">{this.props.output}</p></div>
+        <div id="display" className="col-12 card justify-content-center"><p className="text-right display-text">{this.props.text}</p></div>
         )
     }
 }
 
-const ReduxDisplay = connect(select)(Display);
+const Display = connect(select)(display);
