@@ -3,6 +3,12 @@ import { connect } from 'react-redux';
 import { buttonPress } from './redux';
 import './App.css'
 
+export const buttonTypes = {
+  UTILITY: 'UTILITY',
+  NUMBER: 'NUMBER',
+  OPERATOR: 'OPERATOR'
+}
+
 export default class App extends React.Component {
 
   render() {
@@ -15,25 +21,25 @@ export default class App extends React.Component {
           <Button
             classes={"btn btn-block utility-button col-3 calc-button"}
             name="CA"
-            type="utility"
+            type={buttonTypes.UTILITY}
           />
           <Button
             classes={"btn btn-block operator-button col-3 calc-button"}
             jsxElem={<i className="fas fa-divide"></i>}
             name='/'
-            type="operator"
+            type={buttonTypes.OPERATOR}
           />
           <Button
             classes={"btn btn-block operator-button col-3 calc-button"}
             jsxElem={<i className="fas fa-times"></i>}
             name='*'
-            type="operator"
+            type={buttonTypes.OPERATOR}
           />
           <Button
             classes={"btn btn-block operator-button col-3 calc-button"}
             jsxElem={<i className="fas fa-minus"></i>}
             name='-'
-            type="operator"
+            type={buttonTypes.OPERATOR}
           />
         </div>
         <div id="row-3" className="row double-base-row">
@@ -44,32 +50,32 @@ export default class App extends React.Component {
             <Button
               classes={"btn btn-block number-button col-4 calc-button"}
               name="7"
-              type="number"
+              type={buttonTypes.NUMBER}
             />
             <Button
               classes={"btn btn-block number-button col-4 calc-button"}
               name="8"
-              type="number"
+              type={buttonTypes.NUMBER}
             />
             <Button
               classes={"btn btn-block number-button col-4 calc-button"}
               name="9"
-              type="number"
+              type={buttonTypes.NUMBER}
             />
             <Button
               classes={"btn btn-block number-button col-4 calc-button"}
               name="4"
-              type="number"
+              type={buttonTypes.NUMBER}
             />
             <Button
               classes={"btn btn-block number-button col-4 calc-button"}
               name="5"
-              type="number"
+              type={buttonTypes.NUMBER}
             />
             <Button
               classes={"btn btn-block number-button col-4 calc-button"}
               name="6"
-              type="number"
+              type={buttonTypes.NUMBER}
             />
           </div>
           <div id="row-3-2" className="col-3 p-0">
@@ -77,7 +83,7 @@ export default class App extends React.Component {
               classes={"btn btn-block operator-button col-12 h-100 calc-button"}
               jsxElem={<i className="fas fa-plus"></i>}
               name='+'
-              type="operator"
+              type={buttonTypes.OPERATOR}
             />
           </div>
         </div>
@@ -90,17 +96,17 @@ export default class App extends React.Component {
               <Button
                 classes={"btn btn-block number-button col-4 calc-button"}
                 name="1"
-                type="number"
+                type={buttonTypes.NUMBER}
               />
               <Button
                 classes={"btn btn-block number-button col-4 calc-button"}
                 name="2"
-                type="number"
+                type={buttonTypes.NUMBER}
               />
               <Button
                 classes={"btn btn-block number-button col-4 calc-button"}
                 name="3"
-                type="number"
+                type={buttonTypes.NUMBER}
               />
             </div>
             <div
@@ -110,12 +116,12 @@ export default class App extends React.Component {
               <Button
                 classes={"btn btn-block number-button col-8 calc-button"}
                 name="0"
-                type="number"
+                type={buttonTypes.NUMBER}
               />
               <Button
                 classes={"btn btn-block number-button col-4 calc-button"}
                 name="."
-                type="number"
+                type={buttonTypes.NUMBER}
               />
             </div>
           </div>
@@ -124,7 +130,7 @@ export default class App extends React.Component {
               classes={"btn btn-block operator-button h-100 col-12 calc-button"}
               jsxElem={<i className="fas fa-equals"></i>}
               name="="
-              type="operator"
+              type={buttonTypes.OPERATOR}
             />
           </div>
         </div>
@@ -151,7 +157,7 @@ class button extends React.Component {
   }
 
   handleClick() {
-      this.props.buttonPress({type: this.type, name: this.name});
+      this.props.buttonPress({buttonType: this.type, buttonName: this.name});
   }
 
   render() {
@@ -166,7 +172,7 @@ class button extends React.Component {
 const Button = connect(null, mapButtonDispatch) (button);
 
 const select = state => {
-    return { text: state.text };
+    return { text: state.display.text };
 }
 
 class display extends React.Component {
