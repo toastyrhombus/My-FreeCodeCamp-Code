@@ -49,6 +49,7 @@
 
 #display {
     background-color: transparent;
+    height: 100%;
 }
 
 @media screen and (max-height: 560px) {

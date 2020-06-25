@@ -7,7 +7,11 @@ import { buttonTypes } from "./App";
 
 // ### Button redux ###
 
-//Redux createSlice
+//Redux
+// Button slice of our state
+// These actions only exist to provide some constant to reference while still adhering to
+// Redux recommendations. These actions do nothing but are instead intercepted by our custom
+// middleware to be processed and the correct actions dispatched.
 const buttonSlice = createSlice({
   name: "button",
   initialState: null,
@@ -21,25 +25,20 @@ const buttonSlice = createSlice({
   },
 });
 
-function round(value, decimals) {
-  return Number(
-    Math.round(parseFloat(value) + "e" + decimals) + "e-" + decimals
-  );
-}
-
+//Display slice of our state
 const displaySlice = createSlice({
   name: "display",
   initialState: { text: "0", error: false, errorTimeoutId: null },
   reducers: {
     updateDisplay: (state, action) => {
-      state.text = round(action.payload.text, 7) | "Overflow";
+      state.text = action.payload.text;
     },
     setError: (state, action) => {
       state.error = action.payload.error;
       state.errorTimeoutId = action.payload.errorTimeoutId;
     },
     showResult: (state, action) => {
-      state.text = round(action.payload.text, 7) | "Overflow";
+      state.text = action.payload.text;
     },
   },
   extraReducers: {
@@ -58,6 +57,7 @@ const ops = {
   "+": (a, b) => parseFloat(b) + parseFloat(a),
 };
 
+// Main calculator slice
 // Note we are treating the operands as strings for ease of use
 const calcSlice = createSlice({
   name: "calc",
@@ -119,10 +119,18 @@ const reducer = {
 
 //Business logic - custom middleware
 //NANA - Next Action Next-Action
+// This middleware intercepts any button presses, uses a switch to determine the type and then the name of the button
+// to determine what actions are required. Some logic is placed inside certain button types to allow validation on the
+// input for particular scenarios.
+// I really don't like how this middleware turned out, I've redone it once completely, and refactored this twice and it
+// still appears to me very difficult to follow if you haven't been looking at the code for the past few days. I've learned
+// alot writing this and hopefully the next one will be more elegant! Maybe a state machine would've simplified things.
 const buttonPressMiddleware = (store) => (next) => (action) => {
   // Intentionally made state non-constant so we can refresh when required
   let state = store.getState();
+  // Intercept all buttonpress actions
   if (action.type === buttonPress().type) {
+    // Get the button type of the specific button we are dealing with
     switch (action.payload.buttonType) {
       case buttonTypes.UTILITY:
         switch (action.payload.buttonName) {
@@ -151,15 +159,19 @@ const buttonPressMiddleware = (store) => (next) => (action) => {
               );
               return;
             }
-
+          // If we aren't negating then we fall through to the operator logic
           case "+":
           case "*":
           case "/":
+            //If we know equals was pressed, only update the operator, do not push A to B
             if (state.calc.equalsPressed === true) {
               store.dispatch(
                 operatorPress({ operator: action.payload.buttonName })
               );
               store.dispatch(setEqualsPressed({ equalsPressed: false }));
+              //If all of our operands and operator exist, we know the user has input more data for
+              // another round of calculation so calculate the already set state, set the new operator
+              // so the user can do another round.
             } else if (
               state.calc.operandA !== "" &&
               state.calc.operandB !== "" &&
@@ -170,6 +182,16 @@ const buttonPressMiddleware = (store) => (next) => (action) => {
               store.dispatch(
                 operatorPress({ operator: action.payload.buttonName })
               );
+              //If user has previously entered something, pressed the operator but then does not enter anything AND
+              // then presses another operator, just update the operation we are doing
+            } else if (
+              state.calc.operandA === "" &&
+              state.calc.operandB !== ""
+            ) {
+              store.dispatch(
+                operatorPress({ operator: action.payload.buttonName })
+              );
+              // Normal operator action, push A to B, set the operator. Also clears A.
             } else {
               store.dispatch(pushbackOperands({}));
               store.dispatch(
@@ -179,6 +201,7 @@ const buttonPressMiddleware = (store) => (next) => (action) => {
             return;
 
           case "=":
+            //Checks we have all input required otherwise show an error
             if (
               state.calc.operator !== "" &&
               state.calc.operandA !== "" &&
@@ -200,9 +223,11 @@ const buttonPressMiddleware = (store) => (next) => (action) => {
         }
 
       case buttonTypes.NUMBER:
+        //If we have already pressed equals, we want to start a new round of calculation when the user
+        // enters a brand new number.
         if (state.calc.equalsPressed === true) {
           store.dispatch(clearPress());
-          state = store.getState();
+          state = store.getState(); //Refresh state as we need fresh state due to our clear action in previous line
         }
         switch (action.payload.buttonName) {
           case "0":
@@ -267,6 +292,7 @@ const buttonPressMiddleware = (store) => (next) => (action) => {
   }
 };
 
+//Function to immediately show an error and then 500ms later, remove that error
 function dispatchErrorWithTimeout(store) {
   const timeoutId = setTimeout(() => {
     store.dispatch(setError({ error: false, errorTimeoutId: null }));
@@ -279,10 +305,12 @@ function dispatchErrorWithTimeout(store) {
   );
 }
 
+// Display middleware
 const displayMiddleware = (store) => (next) => (action) => {
   const state = store.getState();
   switch (action.type) {
     case updateDisplay().type:
+      // If we have real state for operandA, then display it, otherwise show 0
       if (state.calc.operandA !== "") {
         action.payload = { text: state.calc.operandA };
       } else {
@@ -291,6 +319,7 @@ const displayMiddleware = (store) => (next) => (action) => {
       break;
 
     case showResult().type:
+      // Second display action to show the result of our calculation rather than the live state of A
       if (state.calc.operandB !== "") {
         action.payload = { text: state.calc.operandB };
       } else {
@@ -304,7 +333,10 @@ const displayMiddleware = (store) => (next) => (action) => {
   return next(action);
 };
 
+//Error display middleware
 const errorDisplayMiddleware = (store) => (next) => (action) => {
+  //Checks if we are in the middle of a timeout and clears it if we have pressed another button
+  // Does not intercept error actions to avoid infinite recursion
   const state = store.getState();
   if (state.display.error === true && action.type !== setError().type) {
     clearTimeout(state.display.errorTimeoutId);
@@ -312,6 +344,7 @@ const errorDisplayMiddleware = (store) => (next) => (action) => {
   }
   next(action);
 };
+
 const middleware = [
   ...getDefaultMiddleware(),
   errorDisplayMiddleware,
