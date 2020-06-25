@@ -1,16 +1,15 @@
 import React from "react";
-import { connect } from 'react-redux';
-import { buttonPress } from './redux';
-import './App.css'
+import { connect } from "react-redux";
+import { buttonPress } from "./redux";
+import "./App.css";
 
 export const buttonTypes = {
-  UTILITY: 'UTILITY',
-  NUMBER: 'NUMBER',
-  OPERATOR: 'OPERATOR'
-}
+  UTILITY: "UTILITY",
+  NUMBER: "NUMBER",
+  OPERATOR: "OPERATOR",
+};
 
 export default class App extends React.Component {
-
   render() {
     return (
       <div id="calculator-wrapper" className="container-fluid h-100 p-0">
@@ -26,19 +25,19 @@ export default class App extends React.Component {
           <Button
             classes={"btn btn-block operator-button col-3 calc-button"}
             jsxElem={<i className="fas fa-divide"></i>}
-            name='/'
+            name="/"
             type={buttonTypes.OPERATOR}
           />
           <Button
             classes={"btn btn-block operator-button col-3 calc-button"}
             jsxElem={<i className="fas fa-times"></i>}
-            name='*'
+            name="*"
             type={buttonTypes.OPERATOR}
           />
           <Button
             classes={"btn btn-block operator-button col-3 calc-button"}
             jsxElem={<i className="fas fa-minus"></i>}
-            name='-'
+            name="-"
             type={buttonTypes.OPERATOR}
           />
         </div>
@@ -82,7 +81,7 @@ export default class App extends React.Component {
             <Button
               classes={"btn btn-block operator-button col-12 h-100 calc-button"}
               jsxElem={<i className="fas fa-plus"></i>}
-              name='+'
+              name="+"
               type={buttonTypes.OPERATOR}
             />
           </div>
@@ -140,9 +139,10 @@ export default class App extends React.Component {
 }
 
 const mapButtonDispatch = (dispatch) => {
-    return {
-        buttonPress: (buttonType, buttonName) => dispatch(buttonPress(buttonType, buttonName)),
-    };
+  return {
+    buttonPress: (buttonType, buttonName) =>
+      dispatch(buttonPress(buttonType, buttonName)),
+  };
 };
 
 class button extends React.Component {
@@ -150,14 +150,14 @@ class button extends React.Component {
     super(props);
     this.classes = props.classes;
     this.name = props.name;
-    this.content = props.jsxElem || props.name
+    this.content = props.jsxElem || props.name;
     this.type = props.type;
 
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick() {
-      this.props.buttonPress({buttonType: this.type, buttonName: this.name});
+    this.props.buttonPress({ buttonType: this.type, buttonName: this.name });
   }
 
   render() {
@@ -169,19 +169,24 @@ class button extends React.Component {
   }
 }
 
-const Button = connect(null, mapButtonDispatch) (button);
+const Button = connect(null, mapButtonDispatch)(button);
 
-const select = state => {
+const select = (state) => {
+  if (state.display.error) {
+    return { text: "ERR" };
+  } else {
     return { text: state.display.text };
-}
+  }
+};
 
 class display extends React.Component {
-
-    render() {
-        return (
-        <div id="display" className="col-12 card justify-content-center"><p className="text-right display-text">{this.props.text}</p></div>
-        )
-    }
+  render() {
+    return (
+      <div id="display" className="col-12 card justify-content-center">
+        <p className="text-right display-text">{this.props.text}</p>
+      </div>
+    );
+  }
 }
 
 const Display = connect(select)(display);
