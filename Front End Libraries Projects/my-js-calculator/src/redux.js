@@ -160,6 +160,7 @@ const buttonPressMiddleware = (store) => (next) => (action) => {
               return;
             }
           // If we aren't negating then we fall through to the operator logic
+          // eslint-disable-next-line
           case "+":
           case "*":
           case "/":
